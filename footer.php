@@ -10,7 +10,10 @@
  */
 ?>
 
-	<footer class="site-footer"></footer>
+<footer class="site-footer">
+  <span><?php _e('Event Manager', 'event-manager'); ?></span>,
+  <?php echo date("Y"); ?>
+</footer>
 </div><!-- #page -->
 
 <?php wp_footer(); ?>

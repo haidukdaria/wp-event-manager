@@ -7,6 +7,7 @@
  * @package event-manager
  */
 
+//Setup
 function event_manager_setup() {
 	add_theme_support( 'post-thumbnails' );
 
@@ -17,6 +18,17 @@ function event_manager_setup() {
 	);
 }
 add_action( 'after_setup_theme', 'event_manager_setup' );
+
+//Enqueue scripts & styles
+if ( ! function_exists( 'event_manager_scripts' ) ) {
+	function event_manager_scripts() {
+
+		// Enqueue the main stylesheet.
+		wp_enqueue_style( 'main-stylesheet', get_template_directory_uri() .'/assets/css/main.css', false, '1.1.1', 'all' );
+	}
+	add_action( 'wp_enqueue_scripts', 'event_manager_scripts' );
+}
+
 
 //Create custom post type 
 function create_event_post_type() {
