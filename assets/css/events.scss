@@ -1,0 +1,116 @@
+.event-manager {
+  display: flex;
+  gap: 60px;
+  padding: 50px 0 80px;
+
+  &__left,
+  &__right {
+    width: 50%;
+  }
+
+  &__title-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.events-list {
+  &__row {
+    display: flex;
+    border-top: 1px solid gray;
+    border-right: 1px solid gray;
+    border-left: 1px solid gray;
+
+    &-cell {
+      padding: 6px 8px;
+
+      &--name {
+        width: 30%;
+      }
+
+      &--price {
+        width: 20%;
+        border-right: 1px solid gray;
+        border-left: 1px solid gray;
+      }
+
+      &--operations {
+        width: 50%;
+      }
+    }
+
+    &:last-child:not(:only-child) {
+      border-bottom: 1px solid gray;
+    }
+
+    &--head {
+      background-color: #e2e2e2;
+      font-weight: bold;
+    }
+  }
+
+  &__btn {
+    cursor: pointer;
+
+    &--add {
+      padding: 5px 40px;
+      font-size: 14px;
+    }
+  }
+}
+
+.events-admin-form {
+  display: flex;
+  flex-direction: row;
+  background-color: #e2e2e2;
+  padding: 15px;
+  gap: 10px;
+
+  &__column {
+    &--40 {
+      width: 40%;
+    }
+
+    &--60 {
+      width: 60%;
+    }
+  }
+
+  &__control {
+    &.submit {
+      text-align: right;
+    }
+
+    &.file {
+      padding-top: 10px;
+    }
+
+    * {
+      font-size: 14px;
+    }
+  }
+
+  input[type="submit"] {
+    padding: 5px 40px;
+    cursor: pointer;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  textarea {
+    padding: 6px;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  textarea {
+    resize: none;
+    margin-bottom: 0;
+  }
+
+  label {
+    margin-bottom: 10px;
+    display: block;
+  }
+}
