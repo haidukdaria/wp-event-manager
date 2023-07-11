@@ -10,6 +10,7 @@
 }
 .site-header__nav {
   margin: 0;
+  padding: 0;
   list-style: none;
   display: flex;
 }
@@ -20,7 +21,10 @@
   color: black;
   text-decoration: none;
 }
-.site-header__nav .menu-item a:hover {
+.site-header__nav .menu-item a:hover, .site-header__nav .menu-item a:focus, .site-header__nav .menu-item a:active {
+  text-decoration: underline;
+}
+.site-header__nav .current-menu-item a {
   text-decoration: underline;
 }
 
