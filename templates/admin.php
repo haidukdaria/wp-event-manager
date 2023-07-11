@@ -61,38 +61,38 @@ $events = $query->posts;
       </div>
 
       <div class="event-manager__right">
-        <div class="event-manager__edit-form">
+        <div class="event-manager__add-form">
           <h2><?php _e("Add event", 'event-manager'); ?></h2>
-          <form class="event-manager__form events-admin-form" method="POST">
+          <form id="admin-add-form" class="event-manager__form events-admin-form">
 
             <div class="events-admin-form__column events-admin-form__column--40">
               <div class="events-admin-form__control">
-                <input type="text" placeholder="Product name">
+                <input type="text"  id="event-name" name="event-name" required placeholder="Event name" >
               </div>
               <div class="events-admin-form__control">
-                <input type="number" placeholder="Price">
+                <input type="number"  id="event-price" name="event-price" required placeholder="Price">
               </div>
               
               <div class="events-admin-form__control file">
                 <label for="event-image"><?php _e('Upload image: ', 'event-manager'); ?></label>
-                <input type="file" id="event-image" name="event-image" accept="image/png, image/jpeg, image/webp">
+                <input type="file"  id="event-image" name="event-image" required  accept="image/png, image/jpeg, image/webp">
               </div>
             </div>
 
             <div class="events-admin-form__column events-admin-form__column--60">
               <div class="events-admin-form__control">
-                <textarea id="event-image" name="story" rows="10" placeholder="Description"></textarea>
+                <textarea id="event-description" required name="event-description" rows="10" placeholder="Description"></textarea>
               </div>
 
               <div class="events-admin-form__control submit">
-                <input type="submit" value="Add">
+                <input type="submit" value="Add" name="submit">
               </div>
             </div>
 
           </form>
         </div>
 
-        <div class="event-manager__add-form">
+        <div class="event-manager__edit-form">
           <h2><?php _e("Edit event", 'event-manager'); ?></h2>
           <form class="event-manager__form events-admin-form" method="POST">
 
