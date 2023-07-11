@@ -102,3 +102,19 @@ $meta_args = array(
   'show_in_rest' => true,
 );
 register_meta( $object_type, 'event_price', $meta_args );
+
+// Hide menu items for logged-out users
+function hide_menu_items_based_on_role( $items, $menu, $args ) {
+  $current_user = wp_get_current_user();
+  $role = ( array ) $current_user->roles;
+ 
+  if ( !is_user_logged_in() || !in_array( 'administrator', $role )) {
+    foreach ( $items as $key => $item ) {
+      if ( in_array( 'logged-in',  $item->classes ) ) {
+        unset( $items[$key] );
+      }
+    }
+  }
+  return $items;
+}
+add_filter( 'wp_get_nav_menu_items', 'hide_menu_items_based_on_role', 10, 3 );
