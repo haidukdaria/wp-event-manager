@@ -32,6 +32,10 @@
 .events-list__row-cell--operations {
   width: 50%;
 }
+.events-list__row-cell h3 {
+  font-size: 16px;
+  margin: 0;
+}
 .events-list__row:last-child:not(:only-child) {
   border-bottom: 1px solid gray;
 }
@@ -45,6 +49,11 @@
 .events-list__btn--add {
   padding: 5px 40px;
   font-size: 14px;
+}
+.events-list__body {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .events-admin-form {

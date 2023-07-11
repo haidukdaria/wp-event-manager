@@ -29,36 +29,36 @@ wp_reset_postdata();
 
           <div class="event-list__head">
             <div class="events-list__row events-list__row--head">
-            <div class="events-list__row-cell events-list__row-cell--name"><?php _e('Name'); ?></div>
-              <div class="events-list__row-cell events-list__row-cell--price"><?php _e('Price'); ?></div>
-              <div class="events-list__row-cell events-list__row-cell--operations"><?php _e('Operations'); ?></div>
+              <div class="events-list__row-cell events-list__row-cell--name"><h3><?php _e('Name'); ?></h3></div>
+              <div class="events-list__row-cell events-list__row-cell--price"><h3><?php _e('Price'); ?></h3></div>
+              <div class="events-list__row-cell events-list__row-cell--operations"><h3><?php _e('Operations'); ?></h3></div>
             </div>
           </div>
 
-          <div class="events-list__body">
+          <ul class="events-list__body">
             <?php 
               if ( $events ) {
                 foreach ( $events as $post ) {
                   setup_postdata( $post ); ?>
-                    <div class="events-list__row" data-event="<?php echo $post->ID; ?>">
+                    <li class="events-list__row" data-event-id="<?php echo $post->ID; ?>">
                       <div class="events-list__row-cell events-list__row-cell--name"><?php the_title(); ?></div>
                       <div class="events-list__row-cell events-list__row-cell--price"><?php echo get_post_meta($post->ID, 'event_price', true); ?>$</div>
                       <div class="events-list__row-cell events-list__row-cell--operations">
                         <button class="events-list__btn"><?php _e('Read more'); ?></button>
                       </div>
-                    </div><?php
+                    </li><?php
                   wp_reset_postdata();
                 }
               } else {
                 echo 'No events yet';
               }            
             ?>
-          </div>
+          </ul>
         </div>
       </div>
       
       <div class="event-manager__right">
-        <div class="event-manager__event-description event-description">
+        <article class="event-manager__event-description event-description">
           <div class="event-description__container">
             <div class="event-description__image">
               <?php
@@ -71,8 +71,10 @@ wp_reset_postdata();
             </h2>
             <p><b><?php echo __('Price: '); ?></b><?php echo get_post_meta($post->ID, 'event_price', true); ?>$</p>
             <?php the_content(); ?>
+
+            <?php wp_reset_postdata(); ?>
           </div>
-        </div>
+        </article>
       </div>
     </section>
   </div>
