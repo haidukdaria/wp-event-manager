@@ -119,6 +119,7 @@ h2 {
   display: flex;
   flex-direction: row;
   background-color: #e2e2e2;
+  border: 1px solid gray;
   padding: 15px;
   gap: 10px;
 }
@@ -133,6 +134,8 @@ h2 {
 }
 .events-admin-form__control.file {
   padding-top: 10px;
+  display: flex;
+  flex-direction: column;
 }
 .events-admin-form__control * {
   font-size: 14px;

@@ -75,6 +75,7 @@
   display: flex;
   flex-direction: row;
   background-color: #e2e2e2;
+  border: 1px solid gray;
   padding: 15px;
   gap: 10px;
 
@@ -95,6 +96,8 @@
 
     &.file {
       padding-top: 10px;
+      display: flex;
+      flex-direction: column;
     }
 
     * {
