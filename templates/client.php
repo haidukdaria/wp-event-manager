@@ -15,6 +15,8 @@ get_header();
 $query = new WP_Query($args);
 $events = $query->posts;
 
+$first_post = $events[0];
+
 wp_reset_postdata();
 ?>
 
@@ -22,9 +24,9 @@ wp_reset_postdata();
   <div class="container">
     <section class="event-manager">
       <div class="event-manager__left">
-        <h1><?php _e("Events", 'event-manager'); ?></h1>
-        
         <div class="events-list">
+          <h2 class="events-list__title"><?php _e("Events", 'event-manager'); ?></h2>
+
           <div class="event-list__head">
             <div class="events-list__row events-list__row--head">
             <div class="events-list__row-cell events-list__row-cell--name"><?php _e('Name'); ?></div>
@@ -32,6 +34,7 @@ wp_reset_postdata();
               <div class="events-list__row-cell events-list__row-cell--operations"><?php _e('Operations'); ?></div>
             </div>
           </div>
+
           <div class="events-list__body">
             <?php 
               if ( $events ) {
@@ -52,10 +55,24 @@ wp_reset_postdata();
             ?>
           </div>
         </div>
-
       </div>
+      
       <div class="event-manager__right">
-
+        <div class="event-manager__event-description event-description">
+          <div class="event-description__container">
+            <div class="event-description__image">
+              <?php
+              $post = $first_post;
+              setup_postdata( $post );
+              the_post_thumbnail('thumbnail'); ?>
+            </div>
+            <h2>
+              <?php the_title(); ?>
+            </h2>
+            <p><b><?php echo __('Price: '); ?></b><?php echo get_post_meta($post->ID, 'event_price', true); ?>$</p>
+            <?php the_content(); ?>
+          </div>
+        </div>
       </div>
     </section>
   </div>

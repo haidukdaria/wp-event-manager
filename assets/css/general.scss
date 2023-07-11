@@ -52,7 +52,17 @@ html {
   margin-top: 0 !important;
 }
 
+h2 {
+  font-size: 24px;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
 .container {
   max-width: 1300px;
   margin: auto;
+}
+
+#primary {
+  min-height: calc(100vh - 120px);
 }

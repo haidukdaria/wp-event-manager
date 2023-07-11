@@ -114,3 +114,25 @@
     display: block;
   }
 }
+
+.event-description {
+  padding-top: 50px;
+
+  &__container {
+    padding: 20px;
+    background-color: #e2e2e2;
+    border: 1px solid gray;
+
+    &::after {
+      content: "";
+      display: block;
+      height: 0;
+      clear: both;
+    }
+  }
+
+  &__image {
+    float: left;
+    margin-right: 15px;
+  }
+}

@@ -87,4 +87,23 @@
 .events-admin-form label {
   margin-bottom: 10px;
   display: block;
+}
+
+.event-description {
+  padding-top: 50px;
+}
+.event-description__container {
+  padding: 20px;
+  background-color: #e2e2e2;
+  border: 1px solid gray;
+}
+.event-description__container::after {
+  content: "";
+  display: block;
+  height: 0;
+  clear: both;
+}
+.event-description__image {
+  float: left;
+  margin-right: 15px;
 }/*# sourceMappingURL=events.css.map */

@@ -42,9 +42,19 @@ html {
   margin-top: 0 !important;
 }
 
+h2 {
+  font-size: 24px;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
 .container {
   max-width: 1300px;
   margin: auto;
+}
+
+#primary {
+  min-height: calc(100vh - 120px);
 }
 
 .event-manager {
@@ -136,4 +146,23 @@ html {
 .events-admin-form label {
   margin-bottom: 10px;
   display: block;
+}
+
+.event-description {
+  padding-top: 50px;
+}
+.event-description__container {
+  padding: 20px;
+  background-color: #e2e2e2;
+  border: 1px solid gray;
+}
+.event-description__container::after {
+  content: "";
+  display: block;
+  height: 0;
+  clear: both;
+}
+.event-description__image {
+  float: left;
+  margin-right: 15px;
 }/*# sourceMappingURL=main.css.map */
