@@ -19,6 +19,7 @@ $events = $query->posts;
 <?php 
 $current_user = wp_get_current_user();
 $roles = ( array ) $current_user->roles;
+
 if ( is_user_logged_in() && in_array( 'administrator', $roles ) ) : ?>
 
   <main id="primary" class="site-main">
@@ -27,7 +28,7 @@ if ( is_user_logged_in() && in_array( 'administrator', $roles ) ) : ?>
         <div class="event-manager__left">
           <div class="event-manager__title-wrapper">
             <h2><?php _e("Events", 'event-manager'); ?></h2>
-            <button class="events-list__btn events-list__btn--add" id="add-event"><?php _e('Add event'); ?></button>
+            <!-- <button class="events-list__btn events-list__btn--add" id="add-event"><?php //_e('Add event'); ?></button> -->
           </div>
 
           <div class="events-list">
@@ -39,12 +40,12 @@ if ( is_user_logged_in() && in_array( 'administrator', $roles ) ) : ?>
               </div>
             </div>
 
-            <ul class="events-list__body">
+            <ul id="event-list-body" class="events-list__body">
               <?php
                 if ( $events ) {
                   foreach ( $events as $post ) {
                     setup_postdata( $post ); ?>
-                      <li class="events-list__row" data-event="<?php echo $post->ID; ?>">
+                      <li class="events-list__row" data-event-id="<?php echo $post->ID; ?>">
                         <div class="events-list__row-cell events-list__row-cell--name"><?php the_title(); ?></div>
                         <div class="events-list__row-cell events-list__row-cell--price"><?php echo get_post_meta($post->ID, 'event_price', true); ?>$</div>
                         <div class="events-list__row-cell events-list__row-cell--operations">
@@ -66,7 +67,7 @@ if ( is_user_logged_in() && in_array( 'administrator', $roles ) ) : ?>
         </div>
 
         <div class="event-manager__right">
-          <div class="event-manager__add-form">
+          <div class="event-manager__add-form visible">
             <h2><?php _e("Add event", 'event-manager'); ?></h2>
             <form id="admin-add-form" class="event-manager__form events-admin-form">
 
@@ -127,7 +128,6 @@ if ( is_user_logged_in() && in_array( 'administrator', $roles ) ) : ?>
 
             </form>
           </div>
-
         </div>
       </section>
     </div>

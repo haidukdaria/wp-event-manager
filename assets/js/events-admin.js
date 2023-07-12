@@ -4,11 +4,12 @@ document.addEventListener("DOMContentLoaded", function () {
   const nonce = restApiSettings.nonce
 
   const addForm = document.getElementById("admin-add-form")
+  const eventListBody = document.getElementById("event-list-body")
 
   addForm &&
     addForm.addEventListener("submit", function (e) {
       e.preventDefault()
-      console.log("submit")
+
       const formElements = e.target.elements
 
       //event post data
@@ -54,7 +55,33 @@ document.addEventListener("DOMContentLoaded", function () {
           console.log("Post created: ", data)
 
           //then update list on front
-          //here
+          return fetch(eventsEndpoint)
+        })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log("Posts recieved: ", data)
+
+          if (!eventListBody) {
+            return
+          }
+
+          //then populate html
+          let content = ""
+          data.forEach((event) => {
+            content += `<li class="events-list__row" data-event-id="${event.id}">
+            <div class="events-list__row-cell events-list__row-cell--name">${event.title.rendered}</div>
+            <div class="events-list__row-cell events-list__row-cell--price">${event.meta.event_price}$</div>
+            <div class="events-list__row-cell events-list__row-cell--operations">
+              <button class="events-list__btn events-list__btn--edit">Edit</button>
+              /
+              <button class="events-list__btn events-list__btn--delete">Delete</button>
+            </div>
+          </li>`
+          })
+          eventListBody.innerHTML = content
+
+          //clear the form
+          addForm.reset();
         })
         .catch((error) => {
           console.error(error)
