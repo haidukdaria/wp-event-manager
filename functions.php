@@ -100,6 +100,7 @@ $meta_args = array(
   'description'  => 'Event price meta key',
   'single'       => true,
   'show_in_rest' => true,
+  'object_subtype' => 'event',
 );
 register_meta( $object_type, 'event_price', $meta_args );
 
