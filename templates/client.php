@@ -38,13 +38,13 @@ wp_reset_postdata();
           <ul class="events-list__body">
             <?php 
               if ( $events ) {
-                foreach ( $events as $post ) {
+                foreach ( $events as $key => $post ) {\
                   setup_postdata( $post ); ?>
                     <li class="events-list__row" data-event-id="<?php echo $post->ID; ?>">
                       <div class="events-list__row-cell events-list__row-cell--name"><?php the_title(); ?></div>
                       <div class="events-list__row-cell events-list__row-cell--price"><?php echo get_post_meta($post->ID, 'event_price', true); ?>$</div>
                       <div class="events-list__row-cell events-list__row-cell--operations">
-                        <button class="events-list__btn"><?php _e('Read more'); ?></button>
+                        <button class="events-list__btn events-list__btn--read-more <?php if ($key === 0){ echo 'active'; }?>"><?php _e('Read more'); ?></button>
                       </div>
                     </li><?php
                   wp_reset_postdata();
@@ -58,21 +58,18 @@ wp_reset_postdata();
       </div>
       
       <div class="event-manager__right">
-        <article class="event-manager__event-description event-description">
+        <article id="event-description" class="event-manager__event-description event-description">
           <div class="event-description__container">
             <div class="event-description__image">
-              <?php
-              $post = $first_post;
-              setup_postdata( $post );
-              the_post_thumbnail('thumbnail'); ?>
+              <img src="<?php echo get_the_post_thumbnail_url($first_post, 'medium'); ?>" alt="">
             </div>
-            <h2>
-              <?php the_title(); ?>
+            <h2 class="event-description__title">
+              <?php echo get_the_title($first_post); ?>
             </h2>
-            <p><b><?php echo __('Price: '); ?></b><?php echo get_post_meta($post->ID, 'event_price', true); ?>$</p>
-            <?php the_content(); ?>
-
-            <?php wp_reset_postdata(); ?>
+            <p><b><?php echo __('Price: '); ?></b><span class="event-description__price"><?php echo get_post_meta($first_post->ID, 'event_price', true); ?></span>$</p>
+            <p class="event-description__content">
+              <?php echo get_the_excerpt($first_post); ?>
+            </p>
           </div>
         </article>
       </div>

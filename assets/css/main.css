@@ -89,6 +89,8 @@ h2 {
 }
 .events-list__row-cell {
   padding: 6px 8px;
+  display: flex;
+  align-items: center;
 }
 .events-list__row-cell--name {
   width: 30%;
@@ -100,6 +102,7 @@ h2 {
 }
 .events-list__row-cell--operations {
   width: 50%;
+  gap: 5px;
 }
 .events-list__row-cell h3 {
   font-size: 16px;
@@ -117,10 +120,14 @@ h2 {
 }
 .events-list__btn {
   cursor: pointer;
+  border: 1px solid gray;
+  outline: none;
+  padding: 5px 10px;
 }
-.events-list__btn--add {
-  padding: 5px 40px;
-  font-size: 14px;
+.events-list__btn:hover, .events-list__btn.active {
+  background-color: #535353;
+  border: 1px solid #535353;
+  color: #fff;
 }
 .events-list__body {
   margin: 0;
@@ -213,7 +220,22 @@ h2 {
 }
 
 .event-description {
-  padding-top: 50px;
+  margin-top: 50px;
+  position: relative;
+}
+.event-description.loading {
+  opacity: 0.6;
+}
+.event-description.loading::after {
+  content: url(../images/spinner.gif);
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .event-description__container {
   padding: 20px;

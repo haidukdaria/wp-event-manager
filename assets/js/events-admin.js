@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const editEventFormWrapper = document.querySelector(".event-manager__edit-form-wrapper")
   const eventListBody = document.getElementById("event-list-body")
   const eventList = document.getElementById("events-list")
+  const eventDescription = document.getElementById("event-description")
 
   // ADD EVENT FORM SUBMIT
   if (addEventForm) {
@@ -221,8 +222,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
-
-  // EDIT, DELETE BUTTONS
+  // EDIT, DELETE, READ MORE BUTTONS
   document.addEventListener('click', function(e) {
 
     //DELETE HANDLER
@@ -291,13 +291,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       fetch(`${eventsEndpoint}/${eventId}`)
       .then(response => response.json())
-      .then(event => {
-
-        //set event post data into form
-        formElements["event-name"].value = event.title.rendered;
-        formElements["event-price"].value = event.meta.event_price;
-        formElements["event-description"].value = event.raw_excerpt
-        
+      .then(event => {        
         const imageid = event.featured_media;
 
         if (imageid) {
@@ -310,12 +304,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
             editEventForm.classList.remove('loading');
             editEventFormWrapper.classList.remove('disabled')
+
+            //set event post data into form
+            formElements["event-name"].value = event.title.rendered;
+            formElements["event-price"].value = event.meta.event_price;
+            formElements["event-description"].value = event.raw_excerpt
           })
           .catch(error => {
             console.error(error)
           });
         }
         else {
+          //set event post data into form
+          formElements["event-name"].value = event.title.rendered;
+          formElements["event-price"].value = event.meta.event_price;
+          formElements["event-description"].value = event.raw_excerpt
           editEventForm.querySelector('#current-image').innerHTML =  '<p class="events-admin-form__message">No image yet</з>';
           editEventForm.classList.remove('loading');
           editEventFormWrapper.classList.remove('disabled')
@@ -325,8 +328,61 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error(error)
       });
     }
-  })
 
+    //READ MORE HANDLER
+    if (e.target.classList.contains('events-list__btn--read-more')) {
+      document.querySelector('.events-list__btn--read-more.active').classList.remove('active')
+      e.target.classList.add('active')
+      const eventId = parseInt(e.target.closest('.events-list__row').dataset.eventId);
+
+      eventDescription.classList.add('loading');
+
+      const titleContainer = eventDescription.querySelector('.event-description__title')
+      const priceContainer = eventDescription.querySelector('.event-description__price')
+      const contentContainer = eventDescription.querySelector('.event-description__content')
+      const imageContainer = eventDescription.querySelector('.event-description__image')
+
+      fetch(`${eventsEndpoint}/${eventId}`)
+      .then(response => response.json())
+      .then(event => {
+        console.log('Event details recieved: ', event)
+
+        const imageid = event.featured_media;
+
+        if (imageid) {
+          fetch(`${mediaEndpoint}/${imageid}`)
+          .then((response) => response.json())
+          .then((image) => {
+            const url = image.media_details.sizes.medium ? image.media_details.sizes.medium.source_url : image.media_details.sizes.full.source_url
+            imageContainer.innerHTML =  `<img src="${url}">`
+          
+            //set event post data into form
+            titleContainer.innerHTML = event.title.rendered;
+            priceContainer.innerHTML = event.meta.event_price;
+            contentContainer.innerHTML = event.raw_excerpt
+
+            eventDescription.classList.remove('loading');
+          })
+          .catch(error => {
+            console.error(error)
+          });
+        }
+        else {
+          //set event post data into form
+          titleContainer.innerHTML = event.title.rendered;
+          priceContainer.innerHTML = event.meta.event_price;
+          contentContainer.innerHTML = event.raw_excerpt
+
+          eventDescription.classList.remove('loading');
+
+        }
+      })
+      .catch(error => {
+        console.error(error)
+      });
+    }
+
+  })
 
   
   //RENDER EVENTS
