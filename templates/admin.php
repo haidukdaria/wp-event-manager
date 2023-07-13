@@ -103,10 +103,10 @@ if ( is_user_logged_in() && in_array( 'administrator', $roles ) ) : ?>
             <form id="admin-edit-form" class="event-manager__form events-admin-form" method="POST" data-event-id="">
               <div class="events-admin-form__column events-admin-form__column--40">
                 <div class="events-admin-form__control">
-                  <input id="event-name" name="event-name" type="text" placeholder="Product name">
+                  <input required id="event-name" name="event-name" type="text" placeholder="Event name">
                 </div>
                 <div class="events-admin-form__control">
-                  <input id="event-price" name="event-price" type="number" placeholder="Price">
+                  <input required id="event-price" name="event-price" type="number" placeholder="Price">
                 </div>
 
                 <p class="events-admin-form__message">
@@ -123,7 +123,7 @@ if ( is_user_logged_in() && in_array( 'administrator', $roles ) ) : ?>
 
               <div class="events-admin-form__column events-admin-form__column--60">
                 <div class="events-admin-form__control">
-                  <textarea id="event-description" name="event-description" rows="10" placeholder="Description"></textarea>
+                  <textarea required id="event-description" name="event-description" rows="10" placeholder="Description"></textarea>
                 </div>
 
                 <div class="events-admin-form__control submit">

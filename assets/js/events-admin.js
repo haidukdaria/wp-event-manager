@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .then((response) => response.json())
       .then((events) => {
-        console.log("Posts recieved: ", events)
+        console.log("Updated post list recieved: ", events)
   
         if (!eventListBody) {
           return
@@ -86,6 +86,142 @@ document.addEventListener("DOMContentLoaded", function () {
     })
   }
 
+  // EDIT EVENT FORM SUBMIT
+  if (editEventForm) {
+    editEventForm.addEventListener("submit", function(e) {
+      e.preventDefault()  
+      //add spinner to form
+      editEventForm.classList.add('loading');
+      
+      //get event id
+      const eventId = editEventForm.dataset.eventId;
+
+      //get all form elements
+      const formElements = editEventForm.elements
+  
+      //get event post data
+      const eventName = formElements["event-name"].value
+      const eventPrice = formElements["event-price"].value
+      const eventDescription = formElements["event-description"].value
+  
+      //if new image is loaded - load image first
+      if (formElements["event-image"].files.length) {
+        const eventImage = formElements["event-image"].files[0]
+        
+        const formData = new FormData()
+        formData.append("file", eventImage)
+              
+        //first upload image to media
+        fetch(mediaEndpoint, {
+          method: "POST",
+          headers: {
+            "X-WP-Nonce": nonce,
+          },
+          body: formData,
+        })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.id) {
+            console.log("New image added: ", data)
+      
+            const imageId = data.id
+            const formData = new FormData()
+
+            formData.append("title", eventName)
+            formData.append("featured_media", imageId)
+            formData.append("event_price", eventPrice)
+            formData.append("excerpt", eventDescription)
+      
+            //then update post with the image
+            return fetch(`${eventsEndpoint}/${eventId}`, {
+              method: "POST",
+              headers: {
+                "X-WP-Nonce": nonce,
+              },
+              body: formData,
+            })
+          }
+          else {
+            throw Error('Image was not loaded');
+          }
+        })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Post updated: ", data)
+    
+          //then get new events list
+          return fetch(eventsEndpoint)
+        })
+        .then((response) => response.json())
+        .then((events) => {
+          console.log("Updated post list recieved: ", events)
+    
+          if (!eventListBody) {
+            return
+          }
+    
+          //then render the new list on front
+          renderEventsList(events);
+    
+          //remove spinner, clear the form
+          editEventForm.classList.remove('loading');
+
+          editEventFormWrapper.classList.add('disabled');
+          editEventForm.reset();
+          editEventForm.querySelector('#current-image').innerHTML = '';
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+      }
+      //if text content is being updated only
+      else {
+        const formData = new FormData()
+
+        formData.append("title", eventName)
+        formData.append("event_price", eventPrice)
+        formData.append("excerpt", eventDescription)
+
+        //update post
+        fetch(`${eventsEndpoint}/${eventId}`, {
+          method: "POST",
+          headers: {
+            "X-WP-Nonce": nonce,
+          },
+          body: formData,
+        })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Post updated: ", data)
+    
+          //then get new events list
+          return fetch(eventsEndpoint)
+        })
+        .then((response) => response.json())
+        .then((events) => {
+          console.log("Updated post list recieved: ", events)
+    
+          if (eventListBody) {
+            //then render the new list on front
+            renderEventsList(events);
+
+            //remove spinner, clear the form
+            editEventForm.classList.remove('loading');
+
+            editEventFormWrapper.classList.add('disabled');
+            editEventForm.reset();
+            editEventForm.querySelector('#current-image').innerHTML = '';
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+      }
+    })
+  }
+
+
+
   // EDIT, DELETE BUTTONS
   document.addEventListener('click', function(e) {
 
@@ -94,6 +230,11 @@ document.addEventListener("DOMContentLoaded", function () {
       const confirmDelete = confirm("Are you sure you want to delete this event?");
 
       if (confirmDelete) {
+        // reset editform
+        editEventFormWrapper.classList.add('disabled');
+        editEventForm.reset();
+        editEventForm.querySelector('#current-image').innerHTML = '';
+
         const eventId = parseInt(e.target.closest('.events-list__row').dataset.eventId);
       
         //add spinner to events list
@@ -186,6 +327,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   })
 
+
+  
   //RENDER EVENTS
   function renderEventsList(events) {
     let content = ""
