@@ -3,16 +3,20 @@ document.addEventListener("DOMContentLoaded", function () {
   const eventsEndpoint = restApiSettings.root + "wp/v2/event"
   const nonce = restApiSettings.nonce
 
-  const addForm = document.getElementById("admin-add-form")
+  const addEventForm = document.getElementById("admin-add-form")
   const eventListBody = document.getElementById("event-list-body")
 
-  addForm &&
-    addForm.addEventListener("submit", function (e) {
+  addEventForm &&
+  addEventForm.addEventListener("submit", function (e) {
       e.preventDefault()
 
-      const formElements = e.target.elements
+      //add spinner to form
+      addEventForm.classList.add('loading');
 
-      //event post data
+      //get all form elements
+      const formElements = addEventForm.elements
+
+      //get event post data
       const eventName = formElements["event-name"].value
       const eventPrice = formElements["event-price"].value
       const eventDescription = formElements["event-description"].value
@@ -20,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const formData = new FormData()
       formData.append("file", eventImage)
-
+      
       //first upload image to media
       fetch(mediaEndpoint, {
         method: "POST",
@@ -80,8 +84,9 @@ document.addEventListener("DOMContentLoaded", function () {
           })
           eventListBody.innerHTML = content
 
-          //clear the form
-          addForm.reset();
+          //remove spinner, clear the form
+          addEventForm.classList.remove('loading');
+          addEventForm.reset();
         })
         .catch((error) => {
           console.error(error)

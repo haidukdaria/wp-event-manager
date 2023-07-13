@@ -70,6 +70,18 @@ h2 {
   justify-content: space-between;
   align-items: center;
 }
+.event-manager__add-form {
+  display: none;
+}
+.event-manager__add-form.visible {
+  display: block;
+}
+.event-manager__edit-form {
+  display: none;
+}
+.event-manager__edit-form.visible {
+  display: block;
+}
 
 .events-list__row {
   display: flex;
@@ -95,7 +107,7 @@ h2 {
   font-size: 16px;
   margin: 0;
 }
-.events-list__row:last-child:not(:only-child) {
+.events-list__row:last-child:not(.events-list__row--head) {
   border-bottom: 1px solid gray;
 }
 .events-list__row--head {
@@ -122,6 +134,7 @@ h2 {
   border: 1px solid gray;
   padding: 15px;
   gap: 10px;
+  position: relative;
 }
 .events-admin-form__column--40 {
   width: 40%;
@@ -158,6 +171,20 @@ h2 {
 .events-admin-form label {
   margin-bottom: 10px;
   display: block;
+}
+.events-admin-form.loading {
+  opacity: 0.7;
+}
+.events-admin-form.loading::after {
+  content: url(../images/spinner.gif);
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .event-description {
