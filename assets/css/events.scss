@@ -32,6 +32,8 @@
 }
 
 .events-list {
+  position: relative;
+
   &__row {
     display: flex;
     border-top: 1px solid gray;
@@ -69,6 +71,10 @@
       background-color: #e2e2e2;
       font-weight: bold;
     }
+
+    &.empty {
+      padding: 10px;
+    }
   }
 
   &__btn {
@@ -84,6 +90,22 @@
     margin: 0;
     padding: 0;
     list-style: none;
+  }
+
+  &.loading {
+    opacity: 0.7;
+
+    &::after {
+      content: url(../images/spinner.gif);
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 }
 

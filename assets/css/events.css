@@ -24,6 +24,9 @@
   display: block;
 }
 
+.events-list {
+  position: relative;
+}
 .events-list__row {
   display: flex;
   border-top: 1px solid gray;
@@ -55,6 +58,9 @@
   background-color: #e2e2e2;
   font-weight: bold;
 }
+.events-list__row.empty {
+  padding: 10px;
+}
 .events-list__btn {
   cursor: pointer;
 }
@@ -66,6 +72,20 @@
   margin: 0;
   padding: 0;
   list-style: none;
+}
+.events-list.loading {
+  opacity: 0.7;
+}
+.events-list.loading::after {
+  content: url(../images/spinner.gif);
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .events-admin-form {

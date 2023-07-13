@@ -31,7 +31,7 @@ if ( is_user_logged_in() && in_array( 'administrator', $roles ) ) : ?>
             <!-- <button class="events-list__btn events-list__btn--add" id="add-event"><?php //_e('Add event'); ?></button> -->
           </div>
 
-          <div class="events-list">
+          <div id="events-list" class="events-list">
             <div class="event-list__head">
               <div class="events-list__row events-list__row--head">
                 <div class="events-list__row-cell events-list__row-cell--name"><h3><?php _e('Name'); ?></h3></div>
@@ -59,7 +59,7 @@ if ( is_user_logged_in() && in_array( 'administrator', $roles ) ) : ?>
                     wp_reset_postdata();
                   }
                 } else {
-                  echo __('No events yet');
+                  echo '<li class="events-list__row empty" >' . __('No events yet :('). '</li>';
                 }
               ?>
             </ul>
