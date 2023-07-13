@@ -119,3 +119,24 @@ function hide_menu_items_based_on_role( $items, $menu, $args ) {
   return $items;
 }
 add_filter( 'wp_get_nav_menu_items', 'hide_menu_items_based_on_role', 10, 3 );
+
+//Register extra field for event raw content in REST API 1/2
+add_action( 'rest_api_init', function () {
+  register_rest_field(
+    'event',
+    'raw_content', //the key in json
+    array(
+      'get_callback'    => 'get_raw_content',
+      'update_callback' => null,
+      'schema'          => null,
+    )
+  );
+});
+
+//Register extra field for event raw content in REST API 2/2
+function get_raw_content( $object, $field_name, $request ) {
+  $post = get_post($object['id']);
+  $output =  $post->post_content;
+
+  return $output;
+}
