@@ -28,7 +28,6 @@ if ( is_user_logged_in() && in_array( 'administrator', $roles ) ) : ?>
         <div class="event-manager__left">
           <div class="event-manager__title-wrapper">
             <h2><?php _e("Events", 'event-manager'); ?></h2>
-            <!-- <button class="events-list__btn events-list__btn--add" id="add-event"><?php //_e('Add event'); ?></button> -->
           </div>
 
           <div id="events-list" class="events-list">
@@ -67,7 +66,7 @@ if ( is_user_logged_in() && in_array( 'administrator', $roles ) ) : ?>
         </div>
 
         <div class="event-manager__right">
-          <div class="event-manager__add-form visible">
+          <div class="event-manager__add-form-wrapper visible">
             <h2><?php _e("Add event", 'event-manager'); ?></h2>
             <form id="admin-add-form" class="event-manager__form events-admin-form">
 
@@ -98,27 +97,33 @@ if ( is_user_logged_in() && in_array( 'administrator', $roles ) ) : ?>
             </form>
           </div>
 
-          <div class="event-manager__edit-form">
+          <div class="event-manager__edit-form-wrapper disabled">   
             <h2><?php _e("Edit event", 'event-manager'); ?></h2>
-            <form class="event-manager__form events-admin-form" method="POST">
 
+            <form id="admin-edit-form" class="event-manager__form events-admin-form" method="POST" data-event-id="">
               <div class="events-admin-form__column events-admin-form__column--40">
                 <div class="events-admin-form__control">
-                  <input type="text" placeholder="Product name">
+                  <input id="event-name" name="event-name" type="text" placeholder="Product name">
                 </div>
                 <div class="events-admin-form__control">
-                  <input type="number" placeholder="Price">
+                  <input id="event-price" name="event-price" type="number" placeholder="Price">
                 </div>
 
+                <p class="events-admin-form__message">
+                  <?php _e('Current image in Media: '); ?>
+                </p>
+              
+                <div id="current-image"></div>
+
                 <div class="events-admin-form__control file">
-                  <label for="event-image"><?php _e('Upload image: ', 'event-manager'); ?></label>
+                  <label for="event-image"><?php _e('Upload new image: ', 'event-manager'); ?></label>
                   <input type="file" id="event-image" name="event-image" accept="image/png, image/jpeg, image/webp">
                 </div>
               </div>
 
               <div class="events-admin-form__column events-admin-form__column--60">
                 <div class="events-admin-form__control">
-                  <textarea id="event-image" name="story" rows="10" placeholder="Description"></textarea>
+                  <textarea id="event-description" name="event-description" rows="10" placeholder="Description"></textarea>
                 </div>
 
                 <div class="events-admin-form__control submit">

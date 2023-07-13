@@ -4,9 +4,12 @@ document.addEventListener("DOMContentLoaded", function () {
   const nonce = restApiSettings.nonce
 
   const addEventForm = document.getElementById("admin-add-form")
+  const editEventForm = document.getElementById("admin-edit-form")
+  const editEventFormWrapper = document.querySelector(".event-manager__edit-form-wrapper")
   const eventListBody = document.getElementById("event-list-body")
   const eventList = document.getElementById("events-list")
 
+  // ADD EVENT FORM SUBMIT
   if (addEventForm) {
     addEventForm.addEventListener("submit", function (e) {
       e.preventDefault()  
@@ -43,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
         formData.append("title", eventName)
         formData.append("featured_media", imageId)
         formData.append("event_price", eventPrice)
-        formData.append("content", eventDescription)
+        formData.append("excerpt", eventDescription)
         formData.append("status", "publish")
   
         //then add post with the image
@@ -83,10 +86,11 @@ document.addEventListener("DOMContentLoaded", function () {
     })
   }
 
+  // EDIT, DELETE BUTTONS
   document.addEventListener('click', function(e) {
-    if (e.target.classList.contains('events-list__btn--delete')) {
 
-      //DELETE HANDLER
+    //DELETE HANDLER
+    if (e.target.classList.contains('events-list__btn--delete')) {
       const confirmDelete = confirm("Are you sure you want to delete this event?");
 
       if (confirmDelete) {
@@ -134,12 +138,55 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
 
-
+    //EDIT HANDLER
     if (e.target.classList.contains('events-list__btn--edit')) {
+      const eventId = parseInt(e.target.closest('.events-list__row').dataset.eventId);
       
+      //set eventId and add spinner to edit form
+      editEventForm.classList.add('loading');
+      editEventForm.dataset.eventId = eventId;
+
+      const formElements = editEventForm.elements
+
+      fetch(`${eventsEndpoint}/${eventId}`)
+      .then(response => response.json())
+      .then(event => {
+
+        //set event post data into form
+        formElements["event-name"].value = event.title.rendered;
+        formElements["event-price"].value = event.meta.event_price;
+        formElements["event-description"].value = event.raw_excerpt
+        
+        const imageid = event.featured_media;
+
+        if (imageid) {
+          fetch(`${mediaEndpoint}/${imageid}`)
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.guid.rendered) {
+              editEventForm.querySelector('#current-image').innerHTML =  `<img src="${data.guid.rendered}">`
+            }
+
+            editEventForm.classList.remove('loading');
+            editEventFormWrapper.classList.remove('disabled')
+          })
+          .catch(error => {
+            console.error(error)
+          });
+        }
+        else {
+          editEventForm.querySelector('#current-image').innerHTML =  '<p class="events-admin-form__message">No image yet</з>';
+          editEventForm.classList.remove('loading');
+          editEventFormWrapper.classList.remove('disabled')
+        }
+      })
+      .catch(error => {
+        console.error(error)
+      });
     }
   })
 
+  //RENDER EVENTS
   function renderEventsList(events) {
     let content = ""
 

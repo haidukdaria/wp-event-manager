@@ -52,7 +52,7 @@ function create_event_post_type() {
     'labels' => $labels,
     'public' => true,
     'has_archive' => true,
-    'supports' => array('title', 'editor', 'thumbnail', 'custom-fields'),
+    'supports' => array('title', 'excerpt', 'thumbnail', 'custom-fields'),
     'show_in_rest' => true,
     'menu_icon' => 'dashicons-calendar',
   );
@@ -124,7 +124,7 @@ add_filter( 'wp_get_nav_menu_items', 'hide_menu_items_based_on_role', 10, 3 );
 add_action( 'rest_api_init', function () {
   register_rest_field(
     'event',
-    'raw_content', //the key in json
+    'raw_excerpt', //the key in json
     array(
       'get_callback'    => 'get_raw_content',
       'update_callback' => null,
@@ -135,8 +135,7 @@ add_action( 'rest_api_init', function () {
 
 //Register extra field for event raw content in REST API 2/2
 function get_raw_content( $object, $field_name, $request ) {
-  $post = get_post($object['id']);
-  $output =  $post->post_content;
+  $output = wp_strip_all_tags(get_the_excerpt($object['id'] ));
 
   return $output;
 }

@@ -14,19 +14,14 @@
     align-items: center;
   }
 
-  &__add-form {
-    display: none;
-
-    &.visible {
-      display: block;
-    }
+  &__add-form-wrapper {
+    margin-bottom: 30px;
   }
 
-  &__edit-form {
-    display: none;
-
-    &.visible {
-      display: block;
+  &__edit-form-wrapper {
+    &.disabled {
+      opacity: 0.6;
+      pointer-events: none;
     }
   }
 }
@@ -93,7 +88,7 @@
   }
 
   &.loading {
-    opacity: 0.7;
+    opacity: 0.6;
 
     &::after {
       content: url(../images/spinner.gif);
@@ -144,6 +139,17 @@
     }
   }
 
+  &__message {
+    margin-top: 0;
+    font-size: 14px;
+  }
+
+  #current-image img {
+    height: auto;
+    max-width: 100%;
+    object-position: top;
+  }
+
   input[type="submit"] {
     padding: 5px 40px;
     cursor: pointer;
@@ -168,7 +174,7 @@
   }
 
   &.loading {
-    opacity: 0.7;
+    opacity: 0.6;
 
     &::after {
       content: url(../images/spinner.gif);
