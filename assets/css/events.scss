@@ -1,11 +1,21 @@
 .event-manager {
   display: flex;
-  gap: 60px;
+  gap: 20px;
   padding: 50px 0 80px;
+  flex-direction: column;
+
+  @media (min-width: 992px) {
+    flex-direction: row;
+    gap: 40px;
+  }
 
   &__left,
   &__right {
-    width: 50%;
+    width: 100%;
+
+    @media (min-width: 992px) {
+      width: 50%;
+    }
   }
 
   &__title-wrapper {
@@ -79,7 +89,11 @@
     cursor: pointer;
     border: 1px solid gray;
     outline: none;
-    padding: 5px 10px;
+    padding: 4px;
+
+    @media (min-width: 992px) {
+      padding: 5px 10px;
+    }
 
     &:hover,
     &.active {
@@ -114,20 +128,31 @@
 
 .events-admin-form {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   background-color: #e2e2e2;
   border: 1px solid gray;
-  padding: 15px;
+  padding: 10px;
   gap: 10px;
   position: relative;
 
+  @media (min-width: 992px) {
+    padding: 15px;
+    flex-direction: row;
+  }
+
   &__column {
+    width: 100%;
+
     &--40 {
-      width: 40%;
+      @media (min-width: 992px) {
+        width: 40%;
+      }
     }
 
     &--60 {
-      width: 60%;
+      @media (min-width: 992px) {
+        width: 60%;
+      }
     }
   }
 
@@ -199,8 +224,11 @@
 }
 
 .event-description {
-  margin-top: 50px;
   position: relative;
+
+  @media (min-width: 992px) {
+    margin-top: 50px;
+  }
 
   &.loading {
     opacity: 0.6;
@@ -234,5 +262,14 @@
   &__image {
     float: left;
     margin-right: 15px;
+    max-width: 50%;
+
+    @media (min-width: 992px) {
+      margin-width: 100%;
+    }
+
+    img {
+      width: 100%;
+    }
   }
 }

@@ -51,6 +51,7 @@ h2 {
 .container {
   max-width: 1300px;
   margin: auto;
+  padding: 0 16px;
 }
 
 #primary {
@@ -59,11 +60,23 @@ h2 {
 
 .event-manager {
   display: flex;
-  gap: 60px;
+  gap: 20px;
   padding: 50px 0 80px;
+  flex-direction: column;
+}
+@media (min-width: 992px) {
+  .event-manager {
+    flex-direction: row;
+    gap: 40px;
+  }
 }
 .event-manager__left, .event-manager__right {
-  width: 50%;
+  width: 100%;
+}
+@media (min-width: 992px) {
+  .event-manager__left, .event-manager__right {
+    width: 50%;
+  }
 }
 .event-manager__title-wrapper {
   display: flex;
@@ -122,7 +135,12 @@ h2 {
   cursor: pointer;
   border: 1px solid gray;
   outline: none;
-  padding: 5px 10px;
+  padding: 4px;
+}
+@media (min-width: 992px) {
+  .events-list__btn {
+    padding: 5px 10px;
+  }
 }
 .events-list__btn:hover, .events-list__btn.active {
   background-color: #535353;
@@ -151,18 +169,31 @@ h2 {
 
 .events-admin-form {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   background-color: #e2e2e2;
   border: 1px solid gray;
-  padding: 15px;
+  padding: 10px;
   gap: 10px;
   position: relative;
 }
-.events-admin-form__column--40 {
-  width: 40%;
+@media (min-width: 992px) {
+  .events-admin-form {
+    padding: 15px;
+    flex-direction: row;
+  }
 }
-.events-admin-form__column--60 {
-  width: 60%;
+.events-admin-form__column {
+  width: 100%;
+}
+@media (min-width: 992px) {
+  .events-admin-form__column--40 {
+    width: 40%;
+  }
+}
+@media (min-width: 992px) {
+  .events-admin-form__column--60 {
+    width: 60%;
+  }
 }
 .events-admin-form__control.submit {
   text-align: right;
@@ -220,8 +251,12 @@ h2 {
 }
 
 .event-description {
-  margin-top: 50px;
   position: relative;
+}
+@media (min-width: 992px) {
+  .event-description {
+    margin-top: 50px;
+  }
 }
 .event-description.loading {
   opacity: 0.6;
@@ -251,4 +286,13 @@ h2 {
 .event-description__image {
   float: left;
   margin-right: 15px;
+  max-width: 50%;
+}
+@media (min-width: 992px) {
+  .event-description__image {
+    margin-width: 100%;
+  }
+}
+.event-description__image img {
+  width: 100%;
 }/*# sourceMappingURL=main.css.map */
