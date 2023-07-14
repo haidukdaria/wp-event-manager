@@ -1,8 +1,8 @@
 <?php
 /**
- * The header for our theme
+ * The header for the theme
  *
- * This is the template that displays all of the <head> section and everything up until <div id="content">
+ * This is the template that displays all of the <head> section and everything up until <div id="page">
  *
  * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
  *
@@ -30,7 +30,7 @@
           array(
             'theme_location' => 'menu-1',
             'menu_id'        => 'primary-menu',
-            'menu_class' => 'site-header__nav',
+            'menu_class'     => 'site-header__nav',
           )
         );
         ?>

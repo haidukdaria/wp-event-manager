@@ -1,4 +1,4 @@
-<section class="no-results not-found">
+<section class="no-results not-found container">
 	<header class="page-header">
 		<h1 class="page-title"><?php esc_html_e( 'Nothing Found', 'event-manager' ); ?></h1>
 	</header>

@@ -41,7 +41,7 @@ if ( ! function_exists( 'event_manager_scripts' ) ) {
 }
 
 
-//Create custom post type 
+//Create custom post type Event
 function create_event_post_type() {
   $labels = array(
     'name' => 'Events',
@@ -135,7 +135,7 @@ add_action( 'rest_api_init', function () {
 
 //Register extra field for event raw content in REST API 2/2
 function get_raw_content( $object, $field_name, $request ) {
-  $output = wp_strip_all_tags(get_the_excerpt($object['id'] ));
+  $output = wp_strip_all_tags( get_the_excerpt($object['id'] ) );
 
   return $output;
 }
