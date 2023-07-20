@@ -9,7 +9,7 @@ get_header();
   'post_type' => 'event',
   'posts_per_page' => -1,
   'orderby' => 'date',   
-  'order' => 'DESC', 
+  'order' => 'DESC',
 );
 
 $query = new WP_Query($args);
@@ -45,8 +45,8 @@ if ( is_user_logged_in() && in_array( 'administrator', $roles ) ) : ?>
                   foreach ( $events as $post ) {
                     setup_postdata( $post ); ?>
                       <li class="events-list__row" data-event-id="<?php echo $post->ID; ?>">
-                        <div class="events-list__row-cell events-list__row-cell--name"><?php the_title(); ?></div>
-                        <div class="events-list__row-cell events-list__row-cell--price"><?php echo get_post_meta($post->ID, 'event_price', true); ?>$</div>
+                        <div class="events-list__row-cell events-list__row-cell--name"><?php echo esc_html( get_the_title() ); ?></div>
+                        <div class="events-list__row-cell events-list__row-cell--price"><?php echo esc_html( get_post_meta($post->ID, 'event_price', true) ); ?>$</div>
                         <div class="events-list__row-cell events-list__row-cell--operations">
                           <button class="events-list__btn events-list__btn--edit"><?php _e('Edit'); ?></button>
                           /
@@ -58,7 +58,7 @@ if ( is_user_logged_in() && in_array( 'administrator', $roles ) ) : ?>
                     wp_reset_postdata();
                   }
                 } else {
-                  echo '<li class="events-list__row empty" >' . __('No events yet :('). '</li>';
+                  echo '<li class="events-list__row empty" >' . __('No events yet'). '</li>';
                 }
               ?>
             </ul>
@@ -75,12 +75,12 @@ if ( is_user_logged_in() && in_array( 'administrator', $roles ) ) : ?>
                   <input type="text"  id="event-name" name="event-name" required placeholder="Event name" >
                 </div>
                 <div class="events-admin-form__control">
-                  <input type="number"  id="event-price" name="event-price" required placeholder="Price">
+                  <input type="number"  id="event-price" name="event-price" required placeholder="Price" oninput="this.value = Math.abs(this.value) >= 0 ? Math.abs(this.value) : null">
                 </div>
  
                 <div class="events-admin-form__control file">
                   <label for="event-image"><?php _e('Upload image: ', 'event-manager'); ?></label>
-                  <input type="file"  id="event-image" name="event-image" required  accept="image/png, image/jpeg, image/webp">
+                  <input type="file"  id="event-image" name="event-image" required accept="image/png, image/jpeg, image/webp">
                 </div>
               </div>
 
@@ -90,7 +90,7 @@ if ( is_user_logged_in() && in_array( 'administrator', $roles ) ) : ?>
                 </div>
 
                 <div class="events-admin-form__control submit">
-                  <input type="submit" value="Add" name="submit">
+                  <input type="submit" name="submit" value="<?php _e('Add'); ?>">
                 </div>
               </div>
 
@@ -106,7 +106,7 @@ if ( is_user_logged_in() && in_array( 'administrator', $roles ) ) : ?>
                   <input required id="event-name" name="event-name" type="text" placeholder="Event name">
                 </div>
                 <div class="events-admin-form__control">
-                  <input required id="event-price" name="event-price" type="number" placeholder="Price">
+                  <input required id="event-price" name="event-price" type="number" placeholder="Price" oninput="this.value = Math.abs(this.value) >= 0 ? Math.abs(this.value) : null">
                 </div>
 
                 <p class="events-admin-form__message">
@@ -127,7 +127,7 @@ if ( is_user_logged_in() && in_array( 'administrator', $roles ) ) : ?>
                 </div>
 
                 <div class="events-admin-form__control submit">
-                  <input type="submit" value="Update">
+                  <input type="submit" value="<?php _e('Update'); ?>">
                 </div>
               </div>
 

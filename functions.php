@@ -27,15 +27,19 @@ if ( ! function_exists( 'event_manager_scripts' ) ) {
 		wp_enqueue_style( 'main-stylesheet', get_template_directory_uri() .'/assets/css/main.css', false, '1.1.1', 'all' );
 
 		// Enqueue the events-admin JS file
-		wp_enqueue_script( 'admin-javascript', get_template_directory_uri().'/assets/js/events-admin.js', [], '1.1.1', true );
+		wp_enqueue_script( 'main-javascript', get_template_directory_uri().'/assets/js/events-admin.js', [], '1.1.1', true );
 
 		// Throw variables from back to front
-		$restApiSettings = array(
+		$vars = array(
 			'root' => esc_url_raw( rest_url() ),
       'nonce'=> wp_create_nonce( 'wp_rest' ),
+      'editButtonLabel' =>  __('Edit'),
+      'deleteButtonLabel' =>  __('Delete'),
+      'noEventsLabel' =>  __('No events yet'),
+      'noImageLabel' =>  __('No image yet'),
 		);
 
-		wp_localize_script( 'admin-javascript', 'restApiSettings', $restApiSettings );
+		wp_localize_script( 'main-javascript', 'eventsManagerVars', $vars );
 	}
 	add_action( 'wp_enqueue_scripts', 'event_manager_scripts' );
 }
@@ -76,7 +80,7 @@ add_action('add_meta_boxes', 'event_price_meta_box');
 
 // Show metabox, 2/3
 function event_price_meta_box_callback($post) {
-  $price = get_post_meta($post->ID, 'event_price', true); ?> 
+  $price = esc_html( get_post_meta($post->ID, 'event_price', true) ); ?> 
   <span>$</span>
   <input type="number" name="event_price" value="<?php echo esc_attr($price); ?>"><?php
 }

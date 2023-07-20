@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const mediaEndpoint = restApiSettings.root + "wp/v2/media"
-  const eventsEndpoint = restApiSettings.root + "wp/v2/event"
-  const nonce = restApiSettings.nonce
+  const mediaEndpoint = eventsManagerVars.root + "wp/v2/media"
+  const eventsEndpoint = eventsManagerVars.root + "wp/v2/event"
+  const nonce = eventsManagerVars.nonce
 
   const addEventForm = document.getElementById("admin-add-form")
   const editEventForm = document.getElementById("admin-edit-form")
@@ -22,10 +22,11 @@ document.addEventListener("DOMContentLoaded", function () {
       const formElements = addEventForm.elements
   
       //get event post data
-      const eventName = formElements["event-name"].value
-      const eventPrice = formElements["event-price"].value
-      const eventDescription = formElements["event-description"].value
-      const eventImage = formElements["event-image"].files[0]
+      const eventName = sanitizeTextField(formElements["event-name"].value)
+      const eventPrice = parseFloat(formElements["event-price"].value)
+      const eventDescription = sanitizeTextField(formElements["event-description"].value)
+      const eventImage = sanitizeFileName(formElements["event-image"].files[0])
+
   
       const formData = new FormData()
       formData.append("file", eventImage)
@@ -101,13 +102,13 @@ document.addEventListener("DOMContentLoaded", function () {
       const formElements = editEventForm.elements
   
       //get event post data
-      const eventName = formElements["event-name"].value
-      const eventPrice = formElements["event-price"].value
-      const eventDescription = formElements["event-description"].value
+      const eventName = sanitizeTextField(formElements["event-name"].value)
+      const eventPrice = parseFloat(formElements["event-price"].value)
+      const eventDescription = sanitizeTextField(formElements["event-description"].value)
   
       //if new image is loaded - load image first
       if (formElements["event-image"].files.length) {
-        const eventImage = formElements["event-image"].files[0]
+        const eventImage = sanitizeFileName(formElements["event-image"].files[0])
         
         const formData = new FormData()
         formData.append("file", eventImage)
@@ -222,7 +223,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
-  // EDIT, DELETE, READ MORE BUTTONS
+  // EDIT, DELETE, READ MORE BUTTONS CLICK
   document.addEventListener('click', function(e) {
 
     //DELETE HANDLER
@@ -306,9 +307,9 @@ document.addEventListener("DOMContentLoaded", function () {
             editEventFormWrapper.classList.remove('disabled')
 
             //set event post data into form
-            formElements["event-name"].value = event.title.rendered;
-            formElements["event-price"].value = event.meta.event_price;
-            formElements["event-description"].value = event.raw_excerpt
+            formElements["event-name"].value = sanitizeTextField(event.title.rendered);
+            formElements["event-price"].value = parseFloat(event.meta.event_price);
+            formElements["event-description"].value = sanitizeTextField(event.raw_excerpt)
           })
           .catch(error => {
             console.error(error)
@@ -316,10 +317,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         else {
           //set event post data into form
-          formElements["event-name"].value = event.title.rendered;
-          formElements["event-price"].value = event.meta.event_price;
-          formElements["event-description"].value = event.raw_excerpt
-          editEventForm.querySelector('#current-image').innerHTML =  '<p class="events-admin-form__message">No image yet</з>';
+          formElements["event-name"].value = sanitizeTextField(event.title.rendered);
+          formElements["event-price"].value = parseFloat(event.meta.event_price);
+          formElements["event-description"].value = sanitizeTextField(event.raw_excerpt)
+          editEventForm.querySelector('#current-image').innerHTML =  `<p class="events-admin-form__message">${eventsManagerVars.noImageLabel}</p>`;
           editEventForm.classList.remove('loading');
           editEventFormWrapper.classList.remove('disabled')
         }
@@ -357,9 +358,9 @@ document.addEventListener("DOMContentLoaded", function () {
             imageContainer.innerHTML =  `<img src="${url}">`
           
             //set event post data into form
-            titleContainer.innerHTML = event.title.rendered;
-            priceContainer.innerHTML = event.meta.event_price;
-            contentContainer.innerHTML = event.raw_excerpt
+            titleContainer.innerHTML = sanitizeTextField(event.title.rendered);
+            priceContainer.innerHTML = parseFloat(event.meta.event_price);
+            contentContainer.innerHTML = sanitizeTextField(event.raw_excerpt);
 
             eventDescription.classList.remove('loading');
           })
@@ -369,9 +370,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         else {
           //set event post data into form
-          titleContainer.innerHTML = event.title.rendered;
-          priceContainer.innerHTML = event.meta.event_price;
-          contentContainer.innerHTML = event.raw_excerpt
+          titleContainer.innerHTML = sanitizeTextField(event.title.rendered);
+          priceContainer.innerHTML = parseFloat(event.meta.event_price);
+          contentContainer.innerHTML = sanitizeTextField(event.raw_excerpt);
 
           eventDescription.classList.remove('loading');
 
@@ -392,23 +393,50 @@ document.addEventListener("DOMContentLoaded", function () {
     if (Array.isArray(events)) {
       events.forEach((event) => {
         content += `<li class="events-list__row" data-event-id="${event.id}">
-        <div class="events-list__row-cell events-list__row-cell--name">${event.title.rendered}</div>
+        <div class="events-list__row-cell events-list__row-cell--name">${sanitizeTextField(event.title.rendered)}</div>
         <div class="events-list__row-cell events-list__row-cell--price">${event.meta.event_price}$</div>
         <div class="events-list__row-cell events-list__row-cell--operations">
-          <button class="events-list__btn events-list__btn--edit">Edit</button>
+          <button class="events-list__btn events-list__btn--edit">${eventsManagerVars.editButtonLabel}</button>
           /
-          <button class="events-list__btn events-list__btn--delete">Delete</button>
+          <button class="events-list__btn events-list__btn--delete">${eventsManagerVars.deleteButtonLabel}</button>
         </div>
       </li>`
       });
     }
     
     if (content === '') {
-      content = '<li class="events-list__row empty">No events yet :( </li>';
+      content = `<li class="events-list__row empty">${eventsManagerVars.noEventsLabel}</li>`;
     }
 
     if (eventListBody) {
       eventListBody.innerHTML = content
     }
+  }
+
+  //SANITIZE TEXT
+  function sanitizeTextField(text) {
+    const sanitizedText = text.replace(/<\/?[^>]+(>|$)/g, '');
+    return sanitizedText;
+  }
+
+  //SANITIZE FILENAME
+  function sanitizeFileName(file) {
+    if ( !file.name ) {
+      return;
+    }
+
+    const invalidCharsRegex = /[\\/:"*?<>|]/g;
+    const maxLength = 255;
+    let sanitizedFileName = file.name.replace(invalidCharsRegex, '_');
+
+    sanitizedFileName = sanitizedFileName.trim();
+  
+    if (sanitizedFileName.length > maxLength) {
+      sanitizedFileName = sanitizedFileName.substring(0, maxLength);
+    }
+
+    file.name = sanitizedFileName;
+  
+    return file;
   }
 })
